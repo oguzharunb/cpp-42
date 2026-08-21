@@ -8,8 +8,7 @@ SRCS = main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-HEADERS = Array.hpp \
-		  Array.tpp
+HEADERS = Array.hpp
 
 RM = rm -f
 

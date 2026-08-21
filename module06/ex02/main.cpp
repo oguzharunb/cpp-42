@@ -35,31 +35,31 @@ void identify(Base &p)
 {
 	try
 	{
-		dynamic_cast<A &>(p);
+		(void)dynamic_cast<A &>(p);
 		std::cout << "A" << std::endl;
 		return;
 	}
-	catch (std::exception &e)
+	catch (const std::exception &)
 	{
 	}
 
 	try
 	{
-		dynamic_cast<B &>(p);
+		(void)dynamic_cast<B &>(p);
 		std::cout << "B" << std::endl;
 		return;
 	}
-	catch (std::exception &e)
+	catch (const std::exception &)
 	{
 	}
 
 	try
 	{
-		dynamic_cast<C &>(p);
+		(void)dynamic_cast<C &>(p);
 		std::cout << "C" << std::endl;
 		return;
 	}
-	catch (std::exception &e)
+	catch (const std::exception &)
 	{
 	}
 
@@ -70,17 +70,35 @@ int main()
 {
 	srand(time(NULL));
 
-	std::cout << "===== Pointer test =====" << std::endl;
+	std::cout << "===== Generated object =====" << std::endl;
 
 	Base *object = generate();
 
+	std::cout << "Pointer: ";
 	identify(object);
-
-	std::cout << "\n===== Reference test =====" << std::endl;
-
+	std::cout << "Reference: ";
 	identify(*object);
 
 	delete object;
+
+	std::cout << "\n===== Deterministic tests =====" << std::endl;
+
+	A a;
+	B b;
+	C c;
+
+	std::cout << "A pointer: ";
+	identify(&a);
+	std::cout << "A reference: ";
+	identify(a);
+	std::cout << "B pointer: ";
+	identify(&b);
+	std::cout << "B reference: ";
+	identify(b);
+	std::cout << "C pointer: ";
+	identify(&c);
+	std::cout << "C reference: ";
+	identify(c);
 
 	return (0);
 }

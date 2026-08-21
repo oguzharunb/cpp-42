@@ -42,7 +42,7 @@ Array<T>::Array(unsigned int n)
 	: _array(NULL), _size(n)
 {
 	if (_size > 0)
-		_array = new T[_size];
+		_array = new T[_size]();
 }
 
 
@@ -52,10 +52,19 @@ Array<T>::Array(const Array &other)
 {
 	if (_size > 0)
 	{
-		_array = new T[_size];
-
-		for (unsigned int i = 0; i < _size; i++)
-			_array[i] = other._array[i];
+		_array = new T[_size]();
+		try
+		{
+			for (unsigned int i = 0; i < _size; i++)
+				_array[i] = other._array[i];
+		}
+		catch (...)
+		{
+			delete [] _array;
+			_array = NULL;
+			_size = 0;
+			throw;
+		}
 	}
 }
 
@@ -65,18 +74,24 @@ Array<T> &Array<T>::operator=(const Array &other)
 {
 	if (this != &other)
 	{
-		delete [] _array;
-
-		_size = other._size;
-		_array = NULL;
-
-		if (_size > 0)
+		T *newArray = NULL;
+		if (other._size > 0)
 		{
-			_array = new T[_size];
-
-			for (unsigned int i = 0; i < _size; i++)
-				_array[i] = other._array[i];
+			newArray = new T[other._size]();
+			try
+			{
+				for (unsigned int i = 0; i < other._size; i++)
+					newArray[i] = other._array[i];
+			}
+			catch (...)
+			{
+				delete [] newArray;
+				throw;
+			}
 		}
+		delete [] _array;
+		_array = newArray;
+		_size = other._size;
 	}
 
 	return (*this);

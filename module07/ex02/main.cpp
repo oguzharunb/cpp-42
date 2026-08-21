@@ -8,6 +8,17 @@ int main()
 	std::cout << "===== INT ARRAY =====" << std::endl;
 
 	Array<int> numbers(5);
+	bool defaultInitialized = true;
+
+	for (unsigned int i = 0; i < numbers.size(); i++)
+	{
+		if (numbers[i] != 0)
+			defaultInitialized = false;
+	}
+
+	std::cout << "Default initialized: "
+			  << (defaultInitialized ? "Yes" : "No")
+			  << std::endl;
 
 	for (unsigned int i = 0; i < numbers.size(); i++)
 	{
@@ -53,6 +64,17 @@ int main()
 			  << assigned[1]
 			  << std::endl;
 
+	Array<int> *sameArray = &assigned;
+	assigned = *sameArray;
+	std::cout << "Self-assignment preserved value: "
+			  << assigned[1]
+			  << std::endl;
+
+	const Array<int> constCopy(numbers);
+	std::cout << "Const access: "
+			  << constCopy[2]
+			  << std::endl;
+
 
 	std::cout << "\n===== STRING ARRAY =====" << std::endl;
 
@@ -79,6 +101,18 @@ int main()
 	catch (std::exception &e)
 	{
 		std::cout << "Exception caught: "
+				  << e.what()
+				  << std::endl;
+	}
+
+	try
+	{
+		std::cout << numbers[static_cast<unsigned int>(-1)]
+				  << std::endl;
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Negative index caught after unsigned conversion: "
 				  << e.what()
 				  << std::endl;
 	}

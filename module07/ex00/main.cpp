@@ -63,5 +63,20 @@ int main(void)
 			  << ::max(x, y)
 			  << std::endl;
 
+	std::cout << "min returns second: "
+			  << (&::min(x, y) == &y ? "Yes" : "No")
+			  << std::endl;
+	std::cout << "max returns second: "
+			  << (&::max(x, y) == &y ? "Yes" : "No")
+			  << std::endl;
+
+	std::cout << "\n===== CONST VALUES TEST =====" << std::endl;
+
+	const int low = 7;
+	const int high = 9;
+
+	std::cout << "min(low, high) = " << ::min(low, high) << std::endl;
+	std::cout << "max(low, high) = " << ::max(low, high) << std::endl;
+
 	return (0);
 }
